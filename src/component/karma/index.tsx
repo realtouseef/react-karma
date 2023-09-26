@@ -9,12 +9,20 @@ interface Props {
   children: React.ReactNode;
   hours?: number;
   color?: string;
+  decreaseBy?: number;
 }
+
+/**
+ * @param {string} color - sets the backgroundColor of mask that is created by this components
+ * @param {number} hours - revalidates every specified hour if the day has changed or not, resulting in decreasing the opacity
+ * @param {float} decreaseBy - decrease the opacity by
+ */
 
 export const Karma: React.FC<Props> = ({
   children,
-  hours = 6,
   color = 'white',
+  hours = 6,
+  decreaseBy = 0.1,
 }) => {
   const [decreaseOpacity, setDecreaseOpacity] = useState<number>(1);
   const [currentDate, setCurrentDate] = useState<CurrentDateProps>({
@@ -32,7 +40,7 @@ export const Karma: React.FC<Props> = ({
           prev: currentDate.current,
           current: newDate,
         });
-        setDecreaseOpacity((prev: number) => prev - 0.1);
+        setDecreaseOpacity((prev: number) => prev - decreaseBy);
       }
     }, hours * 3600 * 1000);
 
